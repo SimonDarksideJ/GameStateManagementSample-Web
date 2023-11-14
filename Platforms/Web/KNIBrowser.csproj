@@ -53,6 +53,5 @@
   <ItemGroup>
     <MonoGameContentReference Include="Content\KNIBrowserContent.mgcb" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder17.targets" />
   <Import Project="..\..\GameStateManagement\GameStateManagement.projitems" Label="Shared" />
 </Project>
