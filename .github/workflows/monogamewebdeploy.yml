@@ -32,6 +32,8 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 6.0.x
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
       - name: Publish .NET Core Project
         run: dotnet publish Platforms/Web/KNIBrowser.csproj -c Release -o release --nologo
       - name: Deploy
