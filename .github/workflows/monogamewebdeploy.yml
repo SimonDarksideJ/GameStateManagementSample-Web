@@ -22,22 +22,28 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # Single deploy job since we are just deploying
   deploy-to-github-pages:
-    # use ubuntu-latest image to run steps on
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 6.0.x
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
       - name: Publish .NET Core Project
         run: dotnet publish Platforms/Web/KNIBrowser.csproj -c Release -o release --nologo
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
         with:
-          folder: release/wwwroot
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # Upload wwwroot from publish action
+          path: 'release/wwwroot'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
